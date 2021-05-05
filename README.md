@@ -48,3 +48,19 @@
   - `역할과 구현을 분리`하여 자유롭게 구현 객체를 조립할 수 있도로 설계
 - 클래스 다이어그램 (개발자 시점)
 - 객체 다이어그램 (인스턴스끼리의 참조)
+
+> IntelliJ
+>
+> Generate : Alt + Insert
+>
+> 오류 해결 : Alt + Enter
+>
+> 오류 코드로 이동 : F2
+>
+> 변수명 자동 생성 : Ctrl + Alt + V
+>
+> RecentFile : Ctrl + E
+>
+> ;포함 엔터 : Ctrl + Shift + Enter
+>
+> 이전 File : Ctrl + Alt + <- or ->
