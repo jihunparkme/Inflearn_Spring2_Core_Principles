@@ -64,3 +64,5 @@
 > ;포함 엔터 : Ctrl + Shift + Enter
 >
 > 이전 File : Ctrl + Alt + <- or ->
+>
+> Extract Mathod : Ctrl + Alt + M
