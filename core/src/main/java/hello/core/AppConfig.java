@@ -1,6 +1,8 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
@@ -24,10 +26,22 @@ public class AppConfig {
      * DI, 의존관계 주입 : 의존관계를 외부에서 주입해주는 동작
      */
     public MemberService memberService() {
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
     public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    /**
+     * 메서드명을 보고 역할이 드러나도록 리팩터링
+     * 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악
+     */
+    private MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    private DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
     }
 }
