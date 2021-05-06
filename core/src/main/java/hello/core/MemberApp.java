@@ -19,8 +19,9 @@ public class MemberApp {
          * ApplicationContext = Spring Container (@Bean을 관리)
          *
          * 스프링 컨테이너는 @Configuration 이 붙은 AppConfig 를 설정(구성) 정보로 사용
-         *  여기서 @Bean 이라 적힌 메서드를 모두 호출해서 반환된 객체를 스프링 컨테이너에 등록
-         * 이렇게 스프링 컨테이너에 등록된 객체를 스프링 빈
+         * 여기서 @Bean 이라 적힌 메서드를 모두 호출해서 반환된 객체를 스프링 컨테이너에 등록. Bean이 모두 생성되면 의존관계를 주입
+         * 이렇게 스프링 컨테이너에 등록된 객체를 스프링 빈이라고 불림.
+         * 
          */
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         MemberService memberService = ac.getBean("memberService", MemberService.class); // Bean name, return Type
