@@ -80,3 +80,7 @@
 > 이전 File : Ctrl + Alt + <- or ->
 >
 > Extract Mathod : Ctrl + Alt + M
+>
+> 코드 복사 : Ctrl + D
+>
+> 파일 검색 : Ctrl + N
