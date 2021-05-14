@@ -17,7 +17,9 @@
   - 스프링 배치
   - 스프링 클라우드
 
-### 좋은 객체지향의 5가지 원칙 (SOLID)
+---
+
+## 좋은 객체지향의 5가지 원칙 (SOLID)
 
 - SRP: 단일 책임 원칙(single responsibility principle)
   - `하나의 클래스는 하나의 책임만 가져야 한다`
@@ -37,12 +39,16 @@
   - 구현 클래스에 의존하지 말고, `인터페이스`에 의존하라
   - `역할(Interface)`에 의존해야 `구현`의 변경에 유연해질 수 있다
 
-### 스프링과 객체지향
+---
+
+## 스프링과 객체지향
 
 - 스프링은 DI(Dependency Injection, 의존관계, 의존성 주입)과 DI 컨테이너로 `다형성 + OCP, DIP`를 가능하게 지원
 - 코드의 변경 없이 기능 확장
 
-### IoC, DI, Container
+---
+
+## IoC, DI, Container
 
 - IoC(Inversion of Control, 제어의 역전)
   - 프로그램의 제어 흐름을 직접 제어하는 것이 아니라 외부에서 관리하는 것 (ex. AppConfig.java)
@@ -56,12 +62,36 @@
   - AppConfig 처럼 객체를 생성하고 관리하면서 의존관계를 연결해 주는 것
   - 의존관계 주입에 초점을 맞추면 DI 컨테이너라고 불리는게 적합
 
-### 도메인 설계
+---
+
+## 도메인 설계
 
 - 도메인 `협력, 역할, 책임` 관계 (기획자 시점)
   - `역할과 구현을 분리`하여 자유롭게 구현 객체를 조립할 수 있도로 설계
 - 클래스 다이어그램 (개발자 시점)
 - 객체 다이어그램 (인스턴스끼리의 참조)
+
+---
+
+## 싱글톤 컨테이너
+
+- 싱글톤 패턴 : 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴
+- 싱글톤 객체(스프링 빈)는 상태를 무상태(stateless)로 설계해야 한다.
+  - 특정 클라이언트에 의존적인 필드가 있으면 안된다.
+  - 특정 클라이언트가 값을 변경할 수 있는 필드가 있으면 안된다!
+  - 가급적 읽기만 가능해야 한다.
+  - 필드 대신에 자바에서 공유되지 않는, 지역변수, 파라미터, ThreadLocal 등을 사용해야 한다.
+- 스프링 설정 정보는 항상 @Configuration을 사용하여 싱글톤을 보장하자.
+
+---
+
+## Component Scan
+
+- Config class에 @ComponentScan을 명시해주면, 자동으로 class path를 탐색해서 @Component가 명시된 class들을 Spring Container의 Spring Bean으로 등록해준다.
+- 의존관계 주입은 @Autowired가 해결해준다.
+  - 기본 조회 전략은 타입이 같은 빈을 찾아서 주입
+
+---
 
 > IntelliJ
 >
@@ -75,7 +105,7 @@
 >
 > RecentFile : Ctrl + E
 >
-> ;포함 엔터 : Ctrl + Shift + Enter
+> (;)포함 엔터 : Ctrl + Shift + Enter
 >
 > 이전 File : Ctrl + Alt + <- or ->
 >
@@ -84,3 +114,7 @@
 > 코드 복사 : Ctrl + D
 >
 > 파일 검색 : Ctrl + N
+>
+> Find in Path : Ctrl + Shift + F
+>
+> Find All : Shift x 2
