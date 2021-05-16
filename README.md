@@ -90,6 +90,99 @@
 - Config class에 @ComponentScan을 명시해주면, 자동으로 class path를 탐색해서 @Component가 명시된 class들을 Spring Container의 Spring Bean으로 등록해준다.
 - 의존관계 주입은 @Autowired가 해결해준다.
   - 기본 조회 전략은 타입이 같은 빈을 찾아서 주입
+- Component Scan 기본 대상
+  - @Component
+  - `@Controller` : 스프링 MVC 컨트롤러로 인식
+  - `@Service` : 비즈니스 계층을 인식하는데 도움..
+  - `@Repository` : 스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환
+  - `@Configuration` : 스프링 설정 정보로 인식하고, 스프링 빈이 싱글톤을 유지하도록 추가 처리
+
+---
+
+## 의존관계 자동 주입
+
+- `생성자 주입`
+
+  - 생성자를 통해 의존 관계를 주입받는 방법
+  - 딱 1번 호출 보장. **불변-필수** 의존관계
+
+  ```java
+  @Component
+  public class OrderServiceImpl implements OrderService {
+
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+  }
+  ```
+
+- `수정자 주입(Setter)`
+
+  - 수정자 메서드를 통해서 의존관계를 주입
+  - **선택, 변경** 가능성이 있는 의존 관계
+    - 선택적으로 사용할 경우(주입할 대상이 없어도 동작하도록 할 경우)
+      - @Autowired(required = false)
+    - 중간에 의존관계를 변경할 일은 거의 없음
+
+  ```java
+  @Component
+  public class OrderServiceImpl implements OrderService {
+
+    private MemberRepository memberRepository;
+    private DiscountPolicy discountPolicy;
+
+    @Autowired
+    public void setMemberRepository(MemberRepository memberRepository) {
+      this.memberRepository = memberRepository;
+    }
+
+    @Autowired
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+      this.discountPolicy = discountPolicy;
+    }
+  }
+  ```
+
+- `필드 주입`
+
+  - 외부에서 변경이 불가능하여 테스트하기 힘들다는 치명적인 단점
+  - 가급적 테스트 코드에서만 사용
+
+  ```java
+  @Component
+  public class OrderServiceImpl implements OrderService {
+
+      @Autowired private MemberRepository memberRepository;
+
+      @Autowired private DiscountPolicy discountPolicy;
+  }
+  ```
+
+- `일반 메서드 주입`
+
+  - 일반 메서드를 통해 주입
+  - 한번에 여러 필드를 주입 받을 수 있는 특징이 있지만 잘 사용하지 않음
+
+  ```java
+  @Component
+  public class OrderServiceImpl implements OrderService {
+
+    private MemberRepository memberRepository;
+    private DiscountPolicy discountPolicy;
+
+    @Autowired
+    public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+
+      this.memberRepository = memberRepository;
+      this.discountPolicy = discountPolicy;
+    }
+  }
+  ```
 
 ---
 
