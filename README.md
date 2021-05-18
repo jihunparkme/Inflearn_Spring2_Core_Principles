@@ -101,10 +101,11 @@
 
 ## 의존관계 자동 주입
 
-- `생성자 주입`
+- `생성자 주입`✨
 
   - 생성자를 통해 의존 관계를 주입받는 방법
   - 딱 1번 호출 보장. **불변-필수** 의존관계
+  - 항상 생성자 주입을 선택하라 !
 
   ```java
   @Component
@@ -184,6 +185,52 @@
   }
   ```
 
+### 조회 빈이 2개 이상일 경우 발생하는 문제
+
+- `@Autowired`
+  - 타입 매칭을 시도하고, 이때 여러 빈이 있으면 필드 이름, 파라미터 이름으로 빈 이름을 추가 매칭
+  ```java
+  @Autowired
+  private DiscountPolicy rateDiscountPolicy
+  ```
+- `@Qualifier`
+
+  - 추가 구분자를 붙여주는 방법
+  - 빈 등록 시 @Qualifier 붙이기
+
+  ```java
+  @Component
+  @Qualifier("mainDiscountPolicy")
+  public class RateDiscountPolicy implements DiscountPolicy {}
+
+  // 주입 시 @Qualifier를 붙여주고 등록한 이름을 적기
+
+  // 1. 생성자 자동 주입의 경우
+  @Autowired
+  public OrderServiceImpl(MemberRepository memberRepository @Qualifier("mainDiscountPolicy") DiscountPolicy
+  discountPolicy) {
+
+    this.memberRepository = memberRepository;
+    this.discountPolicy = discountPolicy;
+
+  }
+
+  // 2. 수정자 자동 주입의 경우
+  @Autowired
+  public DiscountPolicy setDiscountPolicy(@Qualifier ("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    return discountPolicy;
+  }
+  ```
+
+- `@Primary`
+  - @Autowired 시에 여러 빈이 매칭되면 @Primary가 우선권
+  - Database Connection을 가져올 경우 등 은근 사용
+  ```java
+  @Component
+  @Primary
+  public class RateDiscountPolicy implements DiscountPolicy {}
+  ```
+
 ---
 
 > IntelliJ
@@ -211,3 +258,5 @@
 > Find in Path : Ctrl + Shift + F
 >
 > Find All : Shift x 2
+>
+> 구현체로 이동 : Ctrl + Alt + B
