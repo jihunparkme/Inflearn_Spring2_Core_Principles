@@ -231,6 +231,73 @@
   public class RateDiscountPolicy implements DiscountPolicy {}
   ```
 
+### 조회한 빈이 모두 필요할 경우
+
+- 동적으로 Bean을 선택해야할 때, 다형성 코드를 유지하면서 Bean을 사용할 수 있음
+
+```java
+public class AllBeanTest {
+
+    @Test
+    void findAllBean() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AutoAppConfig.class, DiscountService.class);
+
+        DiscountService discountService = ac.getBean(DiscountService.class);
+        Member member = new Member(1L, "userA", Grade.VIP);
+        int discountPrice = discountService.discount(member, 10000, "fixDiscountPolicy");
+
+        assertThat(discountService).isInstanceOf(DiscountService.class);
+        assertThat(discountPrice).isEqualTo(1000);
+
+        int rateDiscountPrice = discountService.discount(member, 20000, "rateDiscountPolicy");
+        assertThat(rateDiscountPrice).isEqualTo(2000);
+    }
+
+
+    static class DiscountService {
+        private final Map<String, DiscountPolicy> policyMap;
+        private final List<DiscountPolicy> policies;
+
+        // DiscountService 는 Map 으로 모든 DiscountPolicy 를 주입받는다
+        public DiscountService(Map<String, DiscountPolicy> policyMap,  List<DiscountPolicy> policies) {
+            this.policyMap = policyMap;
+            this.policies = policies;
+
+            System.out.println("policyMap = " + policyMap);
+            System.out.println("policies = " + policies);
+        }
+
+        // 원하는 할인 방법은 매개변수로 받은 후, Map에서 꺼내서 사용
+        public int discount(Member member, int price, String discountCode) {
+            DiscountPolicy discountPolicy = policyMap.get(discountCode);
+
+            System.out.println("discountCode = " + discountCode);
+            System.out.println("discountPolicy = " + discountPolicy);
+
+            return discountPolicy.discount(member, price);
+        }
+    }
+}
+```
+
+## 빈 생성주기 콜백
+
+- 스프링 빈의 이벤트 라이프사이클
+
+  - 스프링 컨테이너 -> 생성 스프링 빈 생성 -> 의존관계 주입 -> 초기화 콜백 -> 사용 -> 소멸전 콜백 -> 스프링 -> 종료
+
+- 객체의 생성과 초기화를 분리하자 !
+
+  - 생성자는 객체 생성에 책임을, 초기화는 생성된 값들을 활용해서 커넥션 열결과 같은 무거운 동작을
+
+- 스프링의 빈 생명주기 콜백 지원 방법
+  - 인터페이스(InitializingBean, DisposableBean)
+    - 지금은 거의 사용하지 않음.
+  - 설정 정보에 초기화 메서드, 종료 메서드 지정
+    - @Bean(initMethod = "init", destroyMethod = "close")
+  - @PostConstruct, @PreDestory 애노테이션 지원
+    - `가장 추천하는 방법`
+
 ---
 
 > IntelliJ
@@ -260,3 +327,5 @@
 > Find All : Shift x 2
 >
 > 구현체로 이동 : Ctrl + Alt + B
+>
+> 코드 정렬 : Ctrl + Alt + L
