@@ -21,6 +21,8 @@ public class LogDemoController {
     public String logDemo(HttpServletRequest request) {
         String requestURL = request.getRequestURL().toString();
         MyLogger myLogger = myLoggerProvider.getObject(); //필요한 시점에 DL로부터  주입
+
+        System.out.println("myLogger = " + myLogger.getClass()); //CGLIB 가짜 프록시 객체를 미리 주입 
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
