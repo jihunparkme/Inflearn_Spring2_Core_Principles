@@ -1,10 +1,31 @@
+---
+layout: post
+title: Spring Core
+summary: Inflearn Spring Core Principles (스프링 핵심 원리 - 기본편)
+categories: (Inflearn)Spring-core
+featured-img: spring_core
+# mathjax: true
+---
+
 # Inflearn_Spring2_Core_Principles
 
 나의 Role model.. 영한님의 Spring 강의 ([링크](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8/dashboard))
 
 스프링 핵심 원리 - 기본편 강의 노트
 
-**Spring**
+# A table of contents
+
+- [Spring](#Spring)
+- [좋은 객체지향의 5가지 원칙 (SOLID)](<#좋은-객체지향의-5가지-원칙-(SOLID)>)
+- [스프링과 객체지향](#스프링과-객체지향)
+- [IoC, DI, Container](#IoC,-DI,-Container)
+- [도메인 설계](#도메인-설계)
+- [싱글톤 컨테이너](#싱글톤-컨테이너)
+- [Component Scan](#Component-Scan)
+- [의존관계 자동 주입](#의존관계-자동-주입)
+- [빈 생성주기 콜백](#빈-생성주기-콜백)
+
+## Spring
 
 [Spring Documentaion](https://spring.io/projects)
 
@@ -303,6 +324,22 @@ public class AllBeanTest {
 ---
 
 **IntelliJ**
+
+- Dependencies: Spring Web, Thymeleaf, Lombok, Spring Boot DevTools
+
+- IntelliJ Gradle 대신에 자바 직접 실행
+
+  - Preferences -> Build, Execution, Deployment -> Build Tools ->Gradle
+
+    - Build and run using: Gradle -> IntelliJ IDEA
+
+    - Run tests using: Gradle -> IntelliJ IDEA
+
+- Lombok 적용
+
+  - Preferences -> plugin -> lombok
+
+  - Preferences -> Annotation Processors -> Enable annotation processing
 
 > Generate : Alt + Insert
 >
